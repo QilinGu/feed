@@ -9,13 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
-import android.widget.Toast;
+
+import com.codepath.kpu.feed.network.NFArticleProvider;
 
 public class NFMainActivity extends AppCompatActivity {
 
     EditText etQuery;
     GridView gvResults;
     Button btnSearch;
+
+    private NFArticleProvider articleProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,6 +27,9 @@ public class NFMainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         setupViews();
+
+        // Initialize our network provider to make requests to New York Times Article Search API
+        articleProvider = new NFArticleProvider();
     }
 
     private void setupViews() {
@@ -56,7 +62,6 @@ public class NFMainActivity extends AppCompatActivity {
 
     public void onArticleSearch(View view) {
         String query = etQuery.getText().toString();
-
-        Toast.makeText(this, "Searching for " + query, Toast.LENGTH_LONG).show();
+        articleProvider.fetchArticlesWithQuery(query, null);
     }
 }
