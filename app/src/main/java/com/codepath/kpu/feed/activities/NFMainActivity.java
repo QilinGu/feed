@@ -1,26 +1,35 @@
-package com.codepath.kpu.feed;
+package com.codepath.kpu.feed.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
+import com.codepath.kpu.feed.NFArticlesAdapter;
+import com.codepath.kpu.feed.R;
 import com.codepath.kpu.feed.models.NFArticle;
 import com.codepath.kpu.feed.network.NFArticleProvider;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
 
 public class NFMainActivity extends AppCompatActivity {
 
-    EditText etQuery;
-    GridView gvResults;
-    Button btnSearch;
+    @Bind(R.id.etQuery) EditText etQuery;
+    @Bind(R.id.gvResults) GridView gvResults;
+    @Bind(R.id.btnSearch) Button btnSearch;
 
+    private NFArticlesAdapter articlesAdapter;
     private NFArticleProvider articleProvider;
 
     @Override
@@ -29,16 +38,28 @@ public class NFMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setupViews();
+
+        // Hook up views with ButterKnife
+        ButterKnife.bind(this);
+
+        // Create adapter and link it to the data source
+        articlesAdapter = new NFArticlesAdapter(this, new ArrayList<NFArticle>());
+        gvResults.setAdapter(articlesAdapter);
 
         // Initialize our network provider to make requests to New York Times Article Search API
         articleProvider = new NFArticleProvider();
-    }
 
-    private void setupViews() {
-        etQuery = (EditText) findViewById(R.id.etQuery);
-        gvResults = (GridView) findViewById(R.id.gvResults);
-        btnSearch = (Button) findViewById(R.id.btnSearch);
+        // Hook up listener for grid click
+        gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // Create an intent to display the article
+                Intent i = new Intent(getApplicationContext(), NFArticleActivity.class);
+                NFArticle article = articlesAdapter.getItem(position);
+                i.putExtra("url", article.getURL());
+                startActivity(i);
+            }
+        });
     }
 
     @Override
@@ -68,7 +89,8 @@ public class NFMainActivity extends AppCompatActivity {
         articleProvider.fetchArticlesWithQuery(query, new NFArticleProvider.NFOnArticlesFetched() {
             @Override
             public void onSuccess(List< NFArticle> fetchedArticles) {
-
+                articlesAdapter.clear();
+                articlesAdapter.addAll(fetchedArticles);
             }
 
             @Override
