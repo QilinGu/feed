@@ -1,12 +1,14 @@
 package com.codepath.kpu.feed.network;
 
-import android.util.Log;
-
+import com.codepath.kpu.feed.models.NFArticle;
+import com.codepath.kpu.feed.models.NFArticlesResponse;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.json.JSONObject;
+
+import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 
@@ -19,7 +21,7 @@ public class NFArticleProvider {
     private AsyncHttpClient client;
 
     public interface NFOnArticlesFetched {
-        void onSuccess();
+        void onSuccess(List<NFArticle> fetchedArticles);
         void onFailure(String errorString);
     }
 
@@ -36,12 +38,15 @@ public class NFArticleProvider {
         client.get(BASE_URI, params, new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-                Log.d("DEBUG", response.toString());
+                super.onSuccess(statusCode, headers, response);
+                List<NFArticle> fetchedArticles = NFArticlesResponse.parseJSON(response).getArticles();
+                callback.onSuccess(fetchedArticles);
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
                 super.onFailure(statusCode, headers, responseString, throwable);
+                callback.onFailure(responseString);
             }
         });
     }

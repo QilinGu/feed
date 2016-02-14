@@ -10,7 +10,10 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridView;
 
+import com.codepath.kpu.feed.models.NFArticle;
 import com.codepath.kpu.feed.network.NFArticleProvider;
+
+import java.util.List;
 
 public class NFMainActivity extends AppCompatActivity {
 
@@ -62,6 +65,16 @@ public class NFMainActivity extends AppCompatActivity {
 
     public void onArticleSearch(View view) {
         String query = etQuery.getText().toString();
-        articleProvider.fetchArticlesWithQuery(query, null);
+        articleProvider.fetchArticlesWithQuery(query, new NFArticleProvider.NFOnArticlesFetched() {
+            @Override
+            public void onSuccess(List< NFArticle> fetchedArticles) {
+
+            }
+
+            @Override
+            public void onFailure(String errorString) {
+                // TODO: handle fetch failure
+            }
+        });
     }
 }
