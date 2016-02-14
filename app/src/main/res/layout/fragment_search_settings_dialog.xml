@@ -23,43 +23,43 @@
         android:id="@+id/cbUS"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cb_label_us"
-        android:checked="false" />
+        android:checked="false"
+        android:text="@string/cb_label_us" />
 
     <CheckBox
         android:id="@+id/cbBusiness"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cb_label_business"
-        android:checked="false" />
+        android:checked="false"
+        android:text="@string/cb_label_business" />
 
     <CheckBox
         android:id="@+id/cbTech"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cb_label_tech"
-        android:checked="false" />
+        android:checked="false"
+        android:text="@string/cb_label_tech" />
 
     <CheckBox
         android:id="@+id/cbScience"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cb_label_science"
-        android:checked="false" />
+        android:checked="false"
+        android:text="@string/cb_label_science" />
 
     <CheckBox
         android:id="@+id/cbSports"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cb_label_sports"
-        android:checked="false" />
+        android:checked="false"
+        android:text="@string/cb_label_sports" />
 
     <CheckBox
         android:id="@+id/cbArts"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/cb_label_arts"
-        android:checked="false" />
+        android:checked="false"
+        android:text="@string/cb_label_arts" />
 
     <TextView
         android:id="@+id/tvBeginDate"
@@ -73,12 +73,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="-30dp"
+        android:layout_marginBottom="-20dp"
         android:layout_marginTop="-30dp"
         android:calendarViewShown="false"
         android:datePickerMode="spinner" />
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -88,13 +88,18 @@
             android:id="@+id/tvSortOrder"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             android:text="@string/title_sort_order"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <Spinner
+            android:id="@+id/spSortOrder"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
-    </LinearLayout>
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true" />
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

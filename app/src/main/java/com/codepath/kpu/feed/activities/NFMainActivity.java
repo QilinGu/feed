@@ -17,6 +17,7 @@ import com.codepath.kpu.feed.NFArticlesAdapter;
 import com.codepath.kpu.feed.R;
 import com.codepath.kpu.feed.fragments.NFSearchSettingsDialog;
 import com.codepath.kpu.feed.models.NFArticle;
+import com.codepath.kpu.feed.models.NFSearchSettingsModel;
 import com.codepath.kpu.feed.network.NFArticleProvider;
 
 import java.util.ArrayList;
@@ -25,13 +26,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
-public class NFMainActivity extends AppCompatActivity {
+public class NFMainActivity extends AppCompatActivity implements NFSearchSettingsDialog.SearchSettingsDialogListener {
 
     @Bind(R.id.gvResults)
     GridView gvResults;
 
     private NFArticlesAdapter articlesAdapter;
     private NFArticleProvider articleProvider;
+
+    private NFSearchSettingsModel searchSettingsModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,6 +52,9 @@ public class NFMainActivity extends AppCompatActivity {
 
         // Initialize our network provider to make requests to New York Times Article Search API
         articleProvider = new NFArticleProvider();
+
+        // Initialize search settings model
+        searchSettingsModel = new NFSearchSettingsModel();
 
         // Hook up listener for grid click
         gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -121,7 +127,12 @@ public class NFMainActivity extends AppCompatActivity {
 
     private void showSettingsDialog() {
         FragmentManager fm = getSupportFragmentManager();
-        NFSearchSettingsDialog searchSettingsDialog = NFSearchSettingsDialog.newInstance();
+        NFSearchSettingsDialog searchSettingsDialog = NFSearchSettingsDialog.newInstance(searchSettingsModel);
         searchSettingsDialog.show(fm, "fragment_search_settings_dialog");
+    }
+
+    @Override
+    public void onSaveSearchSettings(NFSearchSettingsModel searchSettingsModel) {
+        this.searchSettingsModel = searchSettingsModel;
     }
 }
