@@ -2,12 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context=".activities.NFMainActivity">
+
     <item
-        android:id="@+id/action_settings"
+        android:id="@+id/action_filter"
+        android:icon="@android:drawable/ic_menu_edit"
         android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never" />
-    
+        android:title="Filter"
+        app:showAsAction="always" />
+
     <item
         android:id="@+id/action_search"
         android:icon="@android:drawable/ic_menu_search"

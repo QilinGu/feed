@@ -4,4 +4,16 @@
     <string name="hint">Enter search query</string>
     <string name="search">Search</string>
     <string name="title_activity_nfarticle">NFArticleActivity</string>
+    <string name="title_begin_date">Begin Date</string>
+    <string name="title_categories">News Desk Categories</string>
+    <string name="title_sort_order">Sort Order</string>
+    <string name="cb_label_world">World</string>
+    <string name="cb_label_us">U.S.</string>
+    <string name="cb_label_business">Business</string>
+    <string name="cb_label_tech">Tech</string>
+    <string name="cb_label_science">Science</string>
+    <string name="cb_label_sports">Sports</string>
+    <string name="cb_label_arts">Arts</string>
+    <string name="btn_label_save">Save</string>
+    <string name="btn_label_reset">Reset</string>
 </resources>

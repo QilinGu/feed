@@ -2,6 +2,7 @@ package com.codepath.kpu.feed.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SearchView;
@@ -14,6 +15,7 @@ import android.widget.GridView;
 
 import com.codepath.kpu.feed.NFArticlesAdapter;
 import com.codepath.kpu.feed.R;
+import com.codepath.kpu.feed.fragments.NFSearchSettingsDialog;
 import com.codepath.kpu.feed.models.NFArticle;
 import com.codepath.kpu.feed.network.NFArticleProvider;
 
@@ -94,7 +96,8 @@ public class NFMainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_filter) {
+            showSettingsDialog();
             return true;
         }
 
@@ -114,5 +117,11 @@ public class NFMainActivity extends AppCompatActivity {
                 // TODO: handle fetch failure
             }
         });
+    }
+
+    private void showSettingsDialog() {
+        FragmentManager fm = getSupportFragmentManager();
+        NFSearchSettingsDialog searchSettingsDialog = NFSearchSettingsDialog.newInstance();
+        searchSettingsDialog.show(fm, "fragment_search_settings_dialog");
     }
 }
