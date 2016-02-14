@@ -12,33 +12,11 @@
     tools:context=".activities.NFMainActivity"
     tools:showIn="@layout/activity_main">
 
-    <EditText
-        android:id="@+id/etQuery"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/btnSearch"
-        android:layout_toStartOf="@+id/btnSearch"
-        android:hint="@string/hint" />
-
-    <Button
-        android:id="@+id/btnSearch"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/etQuery"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:onClick="onArticleSearch"
-        android:text="@string/search" />
-
     <GridView
         android:id="@+id/gvResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/etQuery"
         android:numColumns="4" />
 </RelativeLayout>
