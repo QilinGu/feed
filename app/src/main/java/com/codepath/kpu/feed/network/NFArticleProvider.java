@@ -1,7 +1,10 @@
 package com.codepath.kpu.feed.network;
 
+import android.text.TextUtils;
+
 import com.codepath.kpu.feed.models.NFArticle;
 import com.codepath.kpu.feed.models.NFArticlesResponse;
+import com.codepath.kpu.feed.models.NFSearchSettingsModel;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -17,6 +20,7 @@ import cz.msebera.android.httpclient.Header;
  */
 public class NFArticleProvider {
     final private String BASE_URI = "http://api.nytimes.com/svc/search/v2/articlesearch.json";
+    final private String API_KEY = "ce93835d601ae5a1a881f510397ffd0a:5:74407583";
 
     private AsyncHttpClient client;
 
@@ -29,11 +33,22 @@ public class NFArticleProvider {
         client = new AsyncHttpClient();
     }
 
-    public void fetchArticlesWithQuery(String query, final NFOnArticlesFetched callback) {
+    public void fetchArticles(String query, NFSearchSettingsModel searchSettingsModel, int page, final NFOnArticlesFetched callback) {
         RequestParams params = new RequestParams();
-        params.put("api-key", "ce93835d601ae5a1a881f510397ffd0a:5:74407583");
-        params.put("page", 0);
-        params.put("q", query);
+        params.put(NFArticleConstants.NF_REQUEST_PARAM_API_KEY, API_KEY);
+        params.put(NFArticleConstants.NF_REQUEST_PARAM_PAGE, page);
+        params.put(NFArticleConstants.NF_REQUEST_PARAM_QUERY, query);
+        params.put(NFArticleConstants.NF_REQUEST_PARAM_BEGIN_DATE, searchSettingsModel.getBeginDateString());
+
+        if (searchSettingsModel.sortOrder != NFSearchSettingsModel.SortOrder.DEFAULT) {
+            params.put(NFArticleConstants.NF_REQUEST_PARAM_SORT, searchSettingsModel.sortOrder.getParameter());
+        }
+
+        List<String> selectedCategories = searchSettingsModel.getSelectedCategories();
+        if (selectedCategories.size() > 0) {
+            String fqString = String.format("news_desk:(%s)", TextUtils.join(" ", selectedCategories));
+            params.put(NFArticleConstants.NF_REQUEST_PARAM_FIELD_QUERY,fqString);
+        }
 
         client.get(BASE_URI, params, new JsonHttpResponseHandler() {
             @Override

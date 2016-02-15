@@ -3,6 +3,11 @@ package com.codepath.kpu.feed.models;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.codepath.kpu.feed.network.NFArticleConstants;
+
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kpu on 2/14/16.
  */
@@ -38,10 +43,44 @@ public class NFSearchSettingsModel implements Parcelable {
         sortOrder = SortOrder.DEFAULT;
     }
 
+    public String getBeginDateString() {
+        String yearString = String.valueOf(beginDateYear);
+        String monthString = String.format("%02d", beginDateMonth + 1);
+        String dayString = String.format("%02d", beginDateDay);
+
+        return yearString + monthString + dayString;
+    }
+
+    public List<String> getSelectedCategories() {
+        List<String> categories = new ArrayList<>();
+        if (selectedWorld) {
+            categories.add(NFArticleConstants.NF_REQUEST_CATEGORY_WORLD);
+        }
+        if (selectedUS) {
+            categories.add(NFArticleConstants.NF_REQUEST_CATEGORY_US);
+        }
+        if (selectedBusiness) {
+            categories.add(NFArticleConstants.NF_REQUEST_CATEGORY_BUSINESS);
+        }
+        if (selectedTech) {
+            categories.add(NFArticleConstants.NF_REQUEST_CATEGORY_TECH);
+        }
+        if (selectedScience) {
+            categories.add(NFArticleConstants.NF_REQUEST_CATEGORY_SCIENCE);
+        }
+        if (selectedSports) {
+            categories.add(NFArticleConstants.NF_REQUEST_CATEGORY_SPORTS);
+        }
+        if (selectedArts) {
+            categories.add(NFArticleConstants.NF_REQUEST_CATEGORY_ARTS);
+        }
+        return categories;
+    }
+
     public enum SortOrder {
         DEFAULT("Default", ""),
-        NEWEST_FIRST ("Newest First", "newest"),
-        OLDEST_FIRST ("Oldest First", "oldest");
+        NEWEST_FIRST("Newest First", "newest"),
+        OLDEST_FIRST("Oldest First", "oldest");
 
         private String displayTitle;
         private String parameter;

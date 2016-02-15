@@ -111,7 +111,7 @@ public class NFMainActivity extends AppCompatActivity implements NFSearchSetting
     }
 
     private void searchArticles(String query) {
-        articleProvider.fetchArticlesWithQuery(query, new NFArticleProvider.NFOnArticlesFetched() {
+        articleProvider.fetchArticles(query, searchSettingsModel, 0, new NFArticleProvider.NFOnArticlesFetched() {
             @Override
             public void onSuccess(List< NFArticle> fetchedArticles) {
                 articlesAdapter.clear();
