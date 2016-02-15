@@ -36,7 +36,7 @@ public class NFArticleProvider {
     public void fetchArticles(String query, NFSearchSettingsModel searchSettingsModel, int page, final NFOnArticlesFetched callback) {
         RequestParams params = new RequestParams();
         params.put(NFArticleConstants.NF_REQUEST_PARAM_API_KEY, API_KEY);
-        params.put(NFArticleConstants.NF_REQUEST_PARAM_PAGE, page);
+        params.put(NFArticleConstants.NF_REQUEST_PARAM_PAGE, String.valueOf(page));
         params.put(NFArticleConstants.NF_REQUEST_PARAM_QUERY, query);
         params.put(NFArticleConstants.NF_REQUEST_PARAM_BEGIN_DATE, searchSettingsModel.getBeginDateString());
 
@@ -49,6 +49,9 @@ public class NFArticleProvider {
             String fqString = String.format("news_desk:(%s)", TextUtils.join(" ", selectedCategories));
             params.put(NFArticleConstants.NF_REQUEST_PARAM_FIELD_QUERY,fqString);
         }
+
+        List<String> requestFields = NFArticleConstants.getRequestFields();
+        params.put(NFArticleConstants.NF_REQUEST_PARAM_FIELD_LIST, TextUtils.join(",", requestFields));
 
         client.get(BASE_URI, params, new JsonHttpResponseHandler() {
             @Override

@@ -1,5 +1,8 @@
 package com.codepath.kpu.feed.network;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by kpu on 2/14/16.
  */
@@ -20,4 +23,23 @@ public class NFArticleConstants {
     public static final String NF_REQUEST_CATEGORY_SCIENCE = "Science";
     public static final String NF_REQUEST_CATEGORY_SPORTS = "Sports";
     public static final String NF_REQUEST_CATEGORY_ARTS = "Arts";
+
+    public static final String NF_ARTICLE_WEB_URL = "web_url";
+    public static final String NF_ARTICLE_SNIPPET = "snippet";
+    public static final String NF_ARTICLE_LEAD_PARAGRAPH = "lead_paragraph";
+    public static final String NF_ARTICLE_ABSTRACT = "abstract";
+    public static final String NF_ARTICLE_HEADLINE = "headline";
+    public static final String NF_ARTICLE_MULTIMEDIA = "multimedia";
+
+    public static List<String> getRequestFields() {
+        List<String> requestFields = new ArrayList<>();
+        requestFields.add(NF_ARTICLE_WEB_URL);
+        requestFields.add(NF_ARTICLE_SNIPPET);
+        requestFields.add(NF_ARTICLE_LEAD_PARAGRAPH);
+        requestFields.add(NF_ARTICLE_ABSTRACT);
+        requestFields.add(NF_ARTICLE_HEADLINE);
+        requestFields.add(NF_ARTICLE_MULTIMEDIA);
+
+        return requestFields;
+    }
 }

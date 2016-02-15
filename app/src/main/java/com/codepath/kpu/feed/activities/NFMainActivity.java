@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 
 import com.codepath.kpu.feed.NFArticlesAdapter;
+import com.codepath.kpu.feed.NFEndlessScrollListener;
 import com.codepath.kpu.feed.R;
 import com.codepath.kpu.feed.fragments.NFSearchSettingsDialog;
 import com.codepath.kpu.feed.models.NFArticle;
@@ -36,6 +37,8 @@ public class NFMainActivity extends AppCompatActivity implements NFSearchSetting
 
     private NFSearchSettingsModel searchSettingsModel;
 
+    private String lastQuery;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,8 @@ public class NFMainActivity extends AppCompatActivity implements NFSearchSetting
         // Initialize search settings model
         searchSettingsModel = new NFSearchSettingsModel();
 
+        lastQuery = "";
+
         // Hook up listener for grid click
         gvResults.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -65,6 +70,13 @@ public class NFMainActivity extends AppCompatActivity implements NFSearchSetting
                 NFArticle article = articlesAdapter.getItem(position);
                 i.putExtra("url", article.getURL());
                 startActivity(i);
+            }
+        });
+
+        gvResults.setOnScrollListener(new NFEndlessScrollListener(5) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount) {
+                searchArticles(lastQuery, page);
             }
         });
     }
@@ -78,8 +90,9 @@ public class NFMainActivity extends AppCompatActivity implements NFSearchSetting
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                searchArticles(query);
+                articlesAdapter.clear();
+                searchArticles(query, 0);
+                lastQuery = query;
                 searchView.clearFocus();
 
                 return false;
@@ -110,11 +123,10 @@ public class NFMainActivity extends AppCompatActivity implements NFSearchSetting
         return super.onOptionsItemSelected(item);
     }
 
-    private void searchArticles(String query) {
-        articleProvider.fetchArticles(query, searchSettingsModel, 0, new NFArticleProvider.NFOnArticlesFetched() {
+    private void searchArticles(String query, int page) {
+        articleProvider.fetchArticles(query, searchSettingsModel, page, new NFArticleProvider.NFOnArticlesFetched() {
             @Override
             public void onSuccess(List< NFArticle> fetchedArticles) {
-                articlesAdapter.clear();
                 articlesAdapter.addAll(fetchedArticles);
             }
 
