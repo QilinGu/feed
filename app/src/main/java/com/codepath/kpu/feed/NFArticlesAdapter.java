@@ -8,8 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.codepath.kpu.feed.models.NFArticle;
-import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class NFArticlesAdapter extends ArrayAdapter<NFArticle> {
         viewHolder.ivImage.setImageResource(0);
         String imageURL = article.getImageURL();
         if (imageURL != null) {
-            Picasso.with(getContext()).load(imageURL).fit().into(viewHolder.ivImage);
+            Glide.with(getContext()).load(imageURL).placeholder(R.drawable.news_placeholder).into(viewHolder.ivImage);
         }
 
         String headline = article.getHeadline();
